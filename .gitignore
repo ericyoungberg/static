@@ -1,0 +1,10 @@
+bower_components
+node_modules
+.DS_Store
+.sass-cache
+npm-debug.log
+dist
+images/*.jpg
+images/*.png
+images/*.svg
+images/*.gif

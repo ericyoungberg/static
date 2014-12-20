@@ -1,0 +1,42 @@
+//Transition mixin
+@mixin trans($properties, $duration) {
+  $transition: ();
+
+  @each $prop in $properties {
+    $transition: append($transition, unquote('#{$prop} #{$duration}'), comma);
+  }
+
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  transition: $transition;
+}
+
+// Media query
+@mixin media($size) {
+  @if $size == 'small' {
+    @media (max-width: 480px) { @content; }
+  } @else if $size == 'medium' {
+    @media (max-width: 960px) { @content; }
+  } @else if $size == 'large' {
+    @media (max-width: 1280px) { @content; }
+  } @else if $size == 'x-large' {
+    @media (max-width: 1600px) { @content; }
+  }
+}
+
+// Using flexbox
+
+@mixin setflex($width) {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  
+  //only set the width if the user specified
+  @if($width) {
+    width: $width;
+  }
+
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
