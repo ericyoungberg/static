@@ -1,6 +1,6 @@
 #LMTLSS Static Sites
 
-### At LMTLSS, we use this as the starting template for all of our client static sites.
+At LMTLSS, we use this as the starting template for all of our client static sites.
 
 #### Setup
 
