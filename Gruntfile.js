@@ -17,6 +17,10 @@ module.exports = function(grunt) {
 		port: 8000
 	};
 
+  var apacheConfig = {
+    port: 9000 
+  };
+
 	grunt.initConfig({
 
 		watch: {
@@ -30,13 +34,16 @@ module.exports = function(grunt) {
 			html: {
 				files: '*.html'
 			},
+      php: {
+        files: ['*.php', 'partials/*.php']
+      },
 			js: {
-				files: 'scripts/*.js',
+				files: ['scripts/*.js', 'scripts/{modules,pages,utils}/*.js'],
 				tasks: ['uglify']
 			},
 			images: {
 				files: 'images/src/*.{png,jpg,gif,ico}',
-				tasks: ['imagemin']
+				tasks: ['imagemin:local']
 			},
       svg: {
         files: 'images/src/*.svg',
@@ -105,7 +112,7 @@ module.exports = function(grunt) {
 
 		open: {
 			server: {
-				path: 'http://localhost:'+portConfig.port
+				path: 'http://localhost:'+apacheConfig.port
 			}
 		},
 
@@ -122,17 +129,24 @@ module.exports = function(grunt) {
 
 		uglify: {
 			local: {
-				src: [bow+'jquery/jquery.min.js', 'scripts/*.js'],
+				src: [
+          bow+'jquery/jquery.min.js', 
+          bow+'nasa/dist/Nasa.min.js',
+          'scripts/{modules,pages,utils}/*.js',
+          'scripts/launchfile.js'
+        ],
 				dest:	'scripts/build/build.js'
 			}
 		},
 
 		imagemin: {
-      files: {
-        expand: true,
-        cwd: './images/src/',
-        src: '*.{png,jpg,jpeg}',
-        dest: './images/'
+      local: {
+        files: [{
+          expand: true,
+          cwd: 'images/src/',
+          src: ['*.{png,jpg,jpeg,ico}'],
+          dest: 'images/'
+        }]
       }
     },
 
@@ -140,7 +154,7 @@ module.exports = function(grunt) {
     	local: {
     		files: [{
     			expand: true,
-    			cwd: 'images/src',
+    			cwd: 'images/src/',
     			src: ['*.svg'],
     			dest: 'images/',
     			ext: '.svg'
@@ -155,7 +169,7 @@ module.exports = function(grunt) {
 		grunt.task.run([
 			'sass',
 			'uglify:local',
-			'imagemin',
+			'imagemin:local',
 			'svgmin',
 			'connect',
 			'open',
@@ -163,12 +177,22 @@ module.exports = function(grunt) {
 		]);
 	});
 
+  grunt.registerTask('start', function() {
+    grunt.task.run([
+			'sass',
+			'uglify:local',
+			'imagemin:local',
+			'svgmin',
+			'watch'
+    ]); 
+  });
+
   grunt.registerTask('build', function() {
     console.log("Building...");
     grunt.task.run([
       'sass',
       'uglify:local',
-      'imagemin',
+      'imagemin:local',
       'svgmin',
       'copy:local',
       'copy:dist'
@@ -180,7 +204,7 @@ module.exports = function(grunt) {
 		grunt.task.run([
 			'sass',
 			'uglify:dist',
-			'imagemin',
+			'imagemin:local',
 			'svgmin',
 			'copy:local'
 		]);
