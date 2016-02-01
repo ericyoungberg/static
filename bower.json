@@ -1,9 +1,9 @@
 {
 	"name": "base-site",
-  	"version": "0.1.0",
+  	"version": "1.1.0",
   	"dependencies": {
     	"jquery": "~2.0.0",
       "normalize-css": "~3.0.1",
-      "nasa": ">=1.2.0"
+      "nasa": ">=1.4.3"
   	}
 }

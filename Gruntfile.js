@@ -17,10 +17,6 @@ module.exports = function(grunt) {
 		port: 8000
 	};
 
-  var apacheConfig = {
-    port: 9000 
-  };
-
 	grunt.initConfig({
 
 		watch: {
@@ -75,7 +71,7 @@ module.exports = function(grunt) {
 						src: ['normalize.css'],
 						dest: 'styles/partials/',
 						rename: function(dest, src) {
-							return dest + '_reset.scss';
+							return dest + '_normalize.scss';
 						}
 					}
 				]
@@ -91,8 +87,20 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: './',
-            src: ['*.html'],
+            src: ['*.{html,php}'],
             dest: 'dist/'
+          },
+          {
+            expand: true,
+            cwd: 'partials/',
+            src: ['*.php'],
+            dest: 'dist/partials/'
+          },
+          {
+            expand: true,
+            cwd: 'fonts',
+            src: ['*.{eot,woff,ttf,svg}'],
+            dest: 'dist/fonts/'
           },
           {
             expand: true,
@@ -112,7 +120,7 @@ module.exports = function(grunt) {
 
 		open: {
 			server: {
-				path: 'http://localhost:'+apacheConfig.port
+				path: 'http://localhost:'+portConfig.port
 			}
 		},
 
@@ -188,7 +196,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', function() {
-    console.log("Building...");
     grunt.task.run([
       'sass',
       'uglify:local',
