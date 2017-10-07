@@ -1,6 +1,9 @@
 {
   "name": "Base-Site",
   "version": "2.0.0",
+  "scripts": {
+    "serve": "docker-compose up"
+  },
   "devDependencies": {
     "babel-plugin-transform-es2015-arrow-functions": "^6.7.7",
     "babel-plugin-transform-es2015-block-scoped-functions": "^6.6.5",
